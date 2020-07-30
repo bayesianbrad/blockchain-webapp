@@ -1,27 +1,16 @@
 #!/usr/bin/env python3
 
-from .chain import Blockchain
-from .block import Block
-from flask import Flask, request
+from backend.chain import Blockchain
+from backend.block import Block
+from flask import request
 from flask_debugtoolbar import DebugToolbarExtension
-import logging
 import requests
 import time
 import json
 
 # intialize flask application
-app = Flask(__name__, instance_relative_config=True)
-app.debug = True
-app.secret_key = 'development key'
 
-toolbar = DebugToolbarExtension(app)
-
-@app.route('/')
-def index():
-    logging.warning("See this message in Flask Debug Toolbar!")
-    return "<html><body></body></html>"
-# Intialize a blockhain object
-
+from src.backend import app
 blockchain = Blockchain()
 
 # create an endpont for app to post a new transaction
@@ -148,7 +137,7 @@ def consensus():
     global blockchain
 
     longest_chain = None
-    current_len = len(blockchian.chain)
+    current_len = len(blockchain.chain)
 
     for node in peers:
         response = requests.get(f'{node}/chain')

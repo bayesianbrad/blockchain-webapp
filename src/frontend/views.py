@@ -5,11 +5,13 @@ import json
 import requests
 from flask import render_template, redirect, request
 
-from frontend import app
+
+
+from src.frontend import app
 
 # Node in the blockchain network that our application will communicate with to fetch
 # and add data. 
-CONNECTED_NODE_ADDRESS = "http://127.0.0.1:8000"
+CONNECTED_NODE_ADDRESS = "http://127.0.0.1:8080"
 
 posts = []
 
@@ -34,7 +36,7 @@ def fetch_posts():
                         key=lambda k: k['timestamp'],
                         reverse=True)
 @app.route('/')
-def index():
+def home():
     fetch_posts()
     return render_template('index.html',
                            title='YourNet: Decentralized '
